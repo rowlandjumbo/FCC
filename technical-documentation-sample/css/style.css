@@ -1,0 +1,82 @@
+/*Base styles*/
+body{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: 1.5rem;
+}
+
+nav{
+  width: 20%;
+  position: fixed;
+  margin-top: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#title{
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 0;
+  border-bottom: 2px solid black;
+}
+main{
+  margin-left: 25%;
+}
+ul{
+  padding: 0;
+}
+ul .nav-link{
+  list-style: none;
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem;
+  display: block;
+  border-bottom: 1px solid black;
+  color: #888;
+
+}
+
+code{
+  background-color: #eee;
+  padding: 2rem 0 2rem 4rem;
+  display: block;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  
+}
+
+#Reference h2{
+  margin-top: 2rem;
+}
+/*Media Queries*/
+@media screen and (max-width: 800px){
+  /*for mobile*/
+  #navbar{
+    display: block;
+    padding-left: 1rem;
+    padding-rit: 1rem;
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+  }
+  #title{
+    padding: 1rem;
+  }
+  #navbar h1{
+    text-align: center;
+  }
+  #navbar ul{
+    list-style-type: none;
+  }
+  main{
+    margin-left: 2rem;
+    margin-right: 2rem;
+
+  }
+  
+  header{
+    text-align: center;
+  }
+}
