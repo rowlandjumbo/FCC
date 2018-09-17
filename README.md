@@ -1,2 +1,2 @@
 # FCC
-FreeCodeCamp Completed Challenges
+Fun FreeCodeCamp Completed Projects
