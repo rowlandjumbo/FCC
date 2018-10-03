@@ -1,0 +1,83 @@
+//quote model
+const quoteObj = [{author: "Apostle Paul", quote: "'To live is Christ to die is gain'"},
+                  {author: "Our Lord Jesus", quote: "'Seek ye first the kingdom of God ...'"},
+                  {author: "King David", quote: "'I will praise the Lord at all times ...'"},
+                  {author: "Moses", quote: "'Who is on the Lord's side? ...'"},
+                  {author: "Our Heavenly Father", quote: "'Let there be Light!'"},
+                  {author: "Saint Peter", quote: "'You are the Son of God'"}];
+
+//text component
+const Text = (props)=>{
+  return(
+    <div id = {props.Id}>{props.text}</div>
+  )
+}
+
+//autor component
+const Author = (props)=>{
+  return(
+      <div id={props.authorId}>{props.authorName}</div>
+  )
+}
+
+//clickable link
+const ClickableLink = ()=>{
+  return (
+    <a href="twitter.com/intent/tweet" id={"tweet-quote"}>Tweet it!</a>
+  )
+}
+
+//button component
+const MyButton = (props)=>{
+  return(
+        <button className = {props.className} id={props.btnId} onClick={props.clickHdlr}>{props.buttonText}</button>
+  )
+}
+
+//quote app Class
+class QuoteApp extends React.Component{
+  constructor (props){
+    super(props);
+    //initial state
+    this.state = {
+      author: '',
+      quote: ''
+    }
+    //bindins
+    this.randQuote = this.randQuote.bind(this);
+  }
+  
+  //overwrite the initial state when the DOM completes loading
+  componentDidMount(){
+    this.randQuote();
+  }
+  randQuote (){
+    //console.log("called randQuote successfully");//test - worked
+    //randomize
+    let randN = Math.floor(Math.random() * quoteObj.length)  
+    //set state to achieve this
+    this.setState(        
+        {
+          author: quoteObj[randN].author,
+          quote: quoteObj[randN].quote
+        }
+    );
+  }//end of randQuote
+
+  
+    render(){
+      return(
+            <div>
+              <Text Id={"text"} text={this.state.quote}/>
+              <Author authorId={"author"} authorName={this.state.author}/>
+              <div id={"buttonRow"}>
+                <ClickableLink />
+                <MyButton className ={"myButton"} btnId={"tumbler-quote-btn"} buttonText={"Tumbler"}/>
+                <MyButton className ={"myButton"} btnId={"new-quote"} buttonText={"New Quote"} clickHdlr={ this.randQuote}/>
+              </div>
+            </div>      )
+
+  }//end of render method
+}//end of class QuoteApp
+
+ReactDOM.render(<QuoteApp/>, document.getElementById('quote-box')); 
