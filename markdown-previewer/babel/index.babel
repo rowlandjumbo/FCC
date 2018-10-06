@@ -1,0 +1,113 @@
+// ALLOWS LINE BREAKS WITH RETURN BUTTON
+marked.setOptions({
+  breaks: true,
+});
+
+//textArea component
+const TextArea = (props)=>{
+  return(
+    <div>
+      <h1 class="title col-xl-12">Editor</h1>
+      <textarea class = "col-xl-12" id = "editor" placeholder = "html editor ..." onChange={props.onChangeUpdater}>{props.defaultText}</textarea>
+      </div>
+  )
+}
+
+//previewer component
+class PreviewComp extends React.Component {
+  
+  createMarkup() {
+    return { __html: marked(this.props.markdown) }
+  }
+  
+  render() {
+    return (
+      <div>
+        <h1 class="title col-xl-12">Markdown Previewer</h1>
+        <div class = "col-xl-12" id="preview" dangerouslySetInnerHTML={this.createMarkup()}>
+      </div>
+        </div>
+    )
+  }
+}
+
+//class MarkdownPrev App
+class MarkdownPrev extends React.Component{
+  constructor(props){
+    super(props);
+    const defaultMarkdown =   `# Welcome to my React Markdown Previewer!
+
+  ## This is a sub-heading...
+  ### And here's some other cool stuff:
+    
+  Heres some code, \`<div></div>\`, between 2 backticks.
+
+  \`\`\`
+  // this is multi-line code:
+
+  function anotherExample(firstLine, lastLine) {
+    if (firstLine == '\`\`\`' && lastLine == '\`\`\`') {
+      return multiLineCode;
+    }
+  }
+  \`\`\`
+    
+  You can also make text **bold**... whoa!
+  Or _italic_.
+  Or... wait for it... **_both!_**
+  And feel free to go crazy ~~crossing stuff out~~.
+
+  There's also [links](https://www.freecodecamp.com), and
+   > Block Quotes!
+
+  And if you want to get really crazy, even tables:
+
+  Wild Header | Crazy Header | Another Header?
+  ------------ | ------------- | ------------- 
+  Your content can | be here, and it | can be here....
+  And here. | Okay. | I think we get it.
+
+  - And of course there are lists.
+    - Some are bulleted.
+        - With different indentation levels.
+          - That look like this.
+
+
+  1. And there are numbererd lists too.
+  1. Use just 1s if you want! 
+  1. But the list goes on...
+  - Even if you use dashes or asterisks.
+  * And last but not least, let's not forget embedded images:
+
+  ![React Logo w/ Text](https://goo.gl/Umyytc)
+  `;
+    
+    this.state ={
+      userText:  defaultMarkdown
+    }//end of state
+    
+    this.prevUpdater = this.prevUpdater.bind(this);
+  }//end of constructor
+  
+  prevUpdater(event){
+    console.log("from prev updater");//test - it works durin onchange successfully
+    //convert the input markdown and set the state
+    this.setState ({
+      userText: event.target.value
+    });
+    //test state to see if it updated
+    //console.log(this.state.userText);//test - now works correctly
+  }//end of prevUpdater Method
+  
+ 
+  render(){
+    return(
+      <div>
+        <TextArea onChangeUpdater={this.prevUpdater} defaultText={this.state.userText}/>
+        <PreviewComp markdown={this.state.userText} />
+      </div>
+    )
+  }//end of render metod
+}//end of class
+
+ReactDOM.render(<MarkdownPrev/>, document.getElementById("root"));
