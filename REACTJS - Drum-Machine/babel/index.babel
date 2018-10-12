@@ -1,0 +1,156 @@
+//padbank - drum pad properties
+const drumPadProperties = [
+  {
+    keyCode: 81,
+    audioTagId: "Q",
+    buttonTagId: "heater-1",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3"
+  },
+  {
+    keyCode: 87,
+    audioTagId: "W",
+    buttonTagId: "heater-2",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3"
+  },
+  {
+    keyCode: 69,
+    audioTagId: "E",
+    buttonTagId: "heater-3",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3"
+  },
+  {
+    keyCode: 65,
+    audioTagId: "A",
+    buttonTagId: "heater-4",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3"
+  },
+  {
+    keyCode: 83,
+    audioTagId: "S",
+    buttonTagId: "clap",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3"
+  },
+  {
+    keyCode: 68,
+    audioTagId: "D",
+    buttonTagId: "open-hh",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3"
+  },
+  {
+    keyCode: 90,
+    audioTagId: "Z",
+    buttonTagId: "kick-n-hat",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3"
+  },
+  {
+    keyCode: 88,
+    audioTagId: "X",
+    buttonTagId: "kick",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3"
+  },
+  {
+    keyCode: 67,
+    audioTagId: "C",
+    buttonTagId: "closed-hh",
+    soundUrl: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3"
+  }
+];
+
+//drum pad component
+class DrumPad extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      display: "Hit the drum DJ!"
+    };
+    //binding
+    this.playSound = this.playSound.bind(this);
+    this.updateState = this.updateState.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  } //end of constructor
+
+  playSound(objWithSoundSrc, whatToDisplay) {
+    //play sound here
+    let sound = document.getElementById(objWithSoundSrc);
+    sound.play();
+    //update the state
+    this.updateState(whatToDisplay);
+  }
+
+  updateState(objToUpdateStateWith) {
+    this.setState({ display: objToUpdateStateWith });
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+
+  handleKeyPress(e) {
+    //console.log("he they keypad is pressed");//test it works correctly
+    //map the object and check the given keycodes
+    drumPadProperties.map((currElem, currIndex, workingArr2) => {
+      if (e.keyCode === workingArr2[currIndex].keyCode) {
+        //play sound
+        //console.log("keypress from the if statement matched"); //test it works correctly
+        this.playSound(
+          workingArr2[currIndex].audioTagId,
+          workingArr2[currIndex].buttonTagId
+        );
+        //console.log("after playsound method"); //test it works correctly
+      }
+    }); //end of drumPadProperties map
+  }
+
+  render() {
+    return (
+      <div>
+        <div id="display">{this.state.display}</div>
+        <div id="drumpad-wrapper">
+        {drumPadProperties.map(
+          (currentElem, indexElem, workingArr) => {
+            return (
+              <button
+                class="drum-pad"
+                id={workingArr[indexElem].buttonTagId}
+                onClick={() => {
+                  this.playSound(
+                    workingArr[indexElem].audioTagId,
+                    workingArr[indexElem].buttonTagId
+                  );
+                }}
+                >
+                {workingArr[indexElem].audioTagId}
+                <audio
+                  class="clip"
+                  id={workingArr[indexElem].audioTagId}
+                  src={workingArr[indexElem].soundUrl}
+                  />
+              </button>
+            );
+          }//end of callback function
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+//Drum App Class
+class DrumApp extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <DrumPad />
+      </div>
+    );
+  }
+} //end of Drum App Class
+
+//render the app to the root
+ReactDOM.render(<DrumApp />, document.getElementById("drum-machine"));
